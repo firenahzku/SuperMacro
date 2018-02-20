@@ -9,6 +9,12 @@ function ActionButton_SetTooltip()
 	oldActionButton_SetTooltip();
 	SM_ActionButton_SetTooltip();
 end
+-- Hooking into tooltip caller of Bongos [Fixed by Threewords]
+oldUpdateTooltip=BActionButton.UpdateTooltip;
+BActionButton.UpdateTooltip = function(button)
+	oldUpdateTooltip(button);
+	SM_ActionButton_SetTooltip();
+end
 
 function SM_ActionButton_SetTooltip()
 	local actionid=ActionButton_GetPagedID(this);
