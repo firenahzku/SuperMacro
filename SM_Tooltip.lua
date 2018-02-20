@@ -10,10 +10,12 @@ function ActionButton_SetTooltip()
 	SM_ActionButton_SetTooltip();
 end
 -- Hooking into tooltip caller of Bongos [Fixed by Threewords]
-oldUpdateTooltip=BActionButton.UpdateTooltip;
-BActionButton.UpdateTooltip = function(button)
-	oldUpdateTooltip(button);
-	SM_ActionButton_SetTooltip();
+if (BActionButton ~= nil) then
+	oldUpdateTooltip=BActionButton.UpdateTooltip;
+	BActionButton.UpdateTooltip = function(button)
+		oldUpdateTooltip(button);
+		SM_ActionButton_SetTooltip();
+	end
 end
 
 function SM_ActionButton_SetTooltip()
