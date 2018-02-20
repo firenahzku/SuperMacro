@@ -12,7 +12,6 @@ end
 
 function SM_ActionButton_SetTooltip()
 	local actionid=ActionButton_GetPagedID(this);
-		Print(actionid)
 	local macroname=GetActionText(actionid); --or getglobal(this:GetName().."Name"):GetText();
 	if ( macroname ) then
 		local macro, _, body = GetMacroInfo(GetMacroIndexByName(macroname));
@@ -94,14 +93,15 @@ function GetActionCooldown( actionid )
 			name,icon,body=GetSuperMacroInfo(superfound);
 		end
 
+		local buttonName = this:GetName() or ("BActionButton"..actionid);	-- The part after 'or' is to support Bongos [Fixed by Threewords]
+
 		local macroname, pic;
 		if ( this ) then
-			local name = this:GetName() or ("BActionButton"..actionid);	-- The part after 'or' is to support Bongos [Fixed by Threewords]
-			macroname=getglobal(name.."Name");
+			macroname=getglobal(buttonName.."Name");
 			if ( macroname ) then
 				macroname:SetText(name);
 			end
-			pic = getglobal(name.."Icon");
+			pic = getglobal(buttonName.."Icon");
 			if ( pic ) then
 				pic:SetTexture(icon);
 			end
@@ -121,10 +121,10 @@ function GetActionCooldown( actionid )
 			local id, book, texture, count = FindItem(spell);
 			if ( count and count>1 and macroname ) then
 				macroname:Hide();
-				getglobal(this:GetName().."Count"):SetText(count);
+				getglobal(buttonName.."Count"):SetText(count);
 			elseif ( macroname ) then
 				macroname:Show();
-				getglobal(this:GetName().."Count"):SetText("");
+				getglobal(buttonName.."Count"):SetText("");
 			end
 			if ( book ) then
 				return GetContainerItemCooldown(id, book);
